@@ -22,9 +22,20 @@ function isSceneVisibleMobile(sceneIndex, progress) {
   return progress >= MOBILE_SCENE_CUTS[2];
 }
 
+/** scrollY fiable en móvil (algunos WebViews priorizan documentElement). */
+function getScrollY() {
+  return (
+    window.scrollY ??
+    window.pageYOffset ??
+    document.documentElement.scrollTop ??
+    document.body.scrollTop ??
+    0
+  );
+}
+
 function updateScrollAnimations() {
   const maxScroll = document.body.scrollHeight - window.innerHeight;
-  const scrollY = window.scrollY;
+  const scrollY = getScrollY();
   const progress = maxScroll > 0 ? scrollY / maxScroll : 0;
 
   root.style.setProperty('--progress', progress.toFixed(5));
@@ -79,6 +90,69 @@ function onScrollTick() {
 window.addEventListener('scroll', onScrollTick, { passive: true });
 window.addEventListener('resize', updateScrollAnimations);
 window.addEventListener('load', updateScrollAnimations);
+
+// --- Móvil: scroll inercial casi no dispara "scroll" hasta el final; sincronizar con tacto ---
+let momentumRafId = 0;
+let momentumLastY = NaN;
+let momentumStableFrames = 0;
+
+function stopMomentumFollow() {
+  if (momentumRafId) {
+    cancelAnimationFrame(momentumRafId);
+    momentumRafId = 0;
+  }
+  momentumLastY = NaN;
+  momentumStableFrames = 0;
+}
+
+function momentumFollowTick() {
+  const y = getScrollY();
+  updateScrollAnimations();
+  if (y === momentumLastY) {
+    momentumStableFrames += 1;
+    // Varios frames iguales → inercia terminó (o usuario quieto)
+    if (momentumStableFrames >= 5) {
+      stopMomentumFollow();
+      return;
+    }
+  } else {
+    momentumStableFrames = 0;
+    momentumLastY = y;
+  }
+  momentumRafId = requestAnimationFrame(momentumFollowTick);
+}
+
+function startMomentumFollow() {
+  stopMomentumFollow();
+  momentumLastY = getScrollY() - 1;
+  momentumRafId = requestAnimationFrame(momentumFollowTick);
+}
+
+document.addEventListener(
+  'touchmove',
+  () => {
+    stopMomentumFollow();
+    onScrollTick();
+  },
+  { passive: true }
+);
+
+document.addEventListener(
+  'touchstart',
+  () => {
+    stopMomentumFollow();
+  },
+  { passive: true }
+);
+
+document.addEventListener('touchend', startMomentumFollow, { passive: true });
+document.addEventListener('touchcancel', startMomentumFollow, { passive: true });
+
+// Pinch/ barra de URL en iOS: a veces mueve el visual viewport sin eventos de scroll frecuentes
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('scroll', onScrollTick, { passive: true });
+  window.visualViewport.addEventListener('resize', onScrollTick, { passive: true });
+}
 if (typeof narrowMq.addEventListener === 'function') {
   narrowMq.addEventListener('change', updateScrollAnimations);
 } else if (typeof narrowMq.addListener === 'function') {
