@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz cumpleaños</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="progress-wrap" aria-hidden="true">
+    <div class="progress-bar"></div>
+  </div>
+
+  <div class="date-badge">
+    <span>Cumpleaños</span>
+    <span>25 · Marzo</span>
+  </div>
+
+  <div class="scroll-hint" id="scrollHint">Desliza para comenzar</div>
+
+  <main class="stage">
+    <div class="noise"></div>
+    <div class="grid"></div>
+    <div class="glow"></div>
+
+    <section class="scene scene-1 active" data-start="0" data-end="0.22">
+      <div class="center-wrap">
+        <div class="hero-orbit"></div>
+        <div class="hero-title">
+          <div class="eyebrow">Edición especial de cumpleaños</div>
+          <h1>
+            Feliz cumpleaños,
+            <span class="name-gradient">mi niña hermosa</span>
+          </h1>
+          <p class="hero-copy">
+            Esta no es una página normal. Es un mini universo hecho para ti, para que cada scroll revele un pedacito de todo lo increíble que eres.
+          </p>
+        </div>
+      </div>
+
+      <div class="photo-stage">
+        <figure class="frame f1" data-label="Tu sonrisa">
+          <img src="./images/foto-1.jpg" alt="Foto especial 1" />
+        </figure>
+        <figure class="frame f2" data-label="Nuestro momento">
+          <img src="./images/foto-2.jpg" alt="Foto especial 2" />
+        </figure>
+        <figure class="frame f3" data-label="Tu luz">
+          <img src="./images/foto-3.jpg" alt="Foto especial 3" />
+        </figure>
+        <figure class="frame f4" data-label="25 de marzo">
+          <img src="./images/foto-4.jpg" alt="Foto especial 4" />
+        </figure>
+      </div>
+
+      <div class="spark s1"></div>
+      <div class="spark s2"></div>
+      <div class="spark s3"></div>
+      <div class="spark s4"></div>
+    </section>
+
+    <section class="scene scene-2" data-start="0.19" data-end="0.5">
+      <figure class="frame big" data-label="La protagonista">
+        <img src="./images/foto-principal.jpg" alt="Foto principal de cumpleaños" />
+      </figure>
+
+      <article class="copy-card">
+        <span class="tag">Capítulo 01</span>
+        <h2>Tu vibra lo cambia todo</h2>
+        <p>
+          Tienes esa forma de hacer que cada lugar se vea mejor, que cada momento se sienta más grande y que incluso un día normal termine siendo inolvidable.
+        </p>
+      </article>
+
+      <aside class="count-card">
+        <div class="tiny">Fecha clave</div>
+        <div class="date-big">25</div>
+        <div class="sub">
+          Marzo no es solo una fecha. Es el día en que llegó al mundo una persona que merece una celebración gigante.
+        </div>
+      </aside>
+    </section>
+
+    <section class="scene scene-3" data-start="0.46" data-end="0.76">
+      <div class="photo-stage">
+        <figure class="frame f5" data-label="Tu esencia">
+          <img src="./images/foto-5.jpg" alt="Foto especial 5" />
+        </figure>
+        <figure class="frame big" data-label="Recuerdo favorito">
+          <img src="./images/foto-6.jpg" alt="Foto especial 6" />
+        </figure>
+        <figure class="frame f6" data-label="Modo wow">
+          <img src="./images/foto-7.jpg" alt="Foto especial 7" />
+        </figure>
+      </div>
+
+      <article class="message-panel">
+        <span class="tag">Capítulo 02</span>
+        <h2>Lo que más amo de ti</h2>
+        <p>
+          No es solo lo linda que te ves. Es cómo haces sentir a los demás, tu manera de reír, tu energía y esa mezcla de dulzura con fuerza que te hace única.
+        </p>
+        <ul>
+          <li>Tu sonrisa convierte cualquier momento en algo especial.</li>
+          <li>Tu forma de ser deja huella en todo lo que tocas.</li>
+          <li>Estar contigo siempre se siente como vivir algo increíble.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="scene scene-4" data-start="0.72" data-end="1">
+      <div class="center-wrap">
+        <article class="final-card">
+          <span class="tag">Final del recorrido</span>
+          <h2>Hoy todo se trata de ti</h2>
+          <p>
+            Espero que este nuevo año te regale momentos hermosos, metas cumplidas, muchas risas y una vida llena de cosas que te hagan feliz. Gracias por existir y por ser tan increíble.
+          </p>
+          <p style="margin-top: 14px;">
+            Que este cumpleaños sea tan espectacular como tú.
+          </p>
+          <div class="sign">Con todo mi cariño</div>
+        </article>
+      </div>
+
+      <div class="photo-stage">
+        <figure class="frame f7" data-label="Siempre tú">
+          <img src="./images/foto-8.jpg" alt="Foto especial 8" />
+        </figure>
+        <figure class="frame f8" data-label="Birthday girl">
+          <img src="./images/foto-9.jpg" alt="Foto especial 9" />
+        </figure>
+        <figure class="frame f9" data-label="Mi favorita">
+          <img src="./images/foto-10.jpg" alt="Foto especial 10" />
+        </figure>
+      </div>
+
+      <div class="footer-note">Hecho con amor, scroll y un poquito de magia</div>
+    </section>
+
+    <div class="overlay-gradient"></div>
+  </main>
+
+  <div class="photo-credit">
+    Reemplaza las imágenes de <code>./images/</code> por tus fotos reales. Mantén esos nombres o cambia los <code>src</code> en el HTML.
+  </div>
+
+  <script src="./script.js" defer></script>
+</body>
+</html>
