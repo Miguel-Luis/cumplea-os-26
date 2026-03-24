@@ -38,7 +38,17 @@ function updateScrollAnimations() {
   }
 }
 
-window.addEventListener('scroll', updateScrollAnimations, { passive: true });
+// Un solo repaint por frame: scroll más fluido en móvil
+let scrollRafId = 0;
+function onScrollTick() {
+  if (scrollRafId) return;
+  scrollRafId = requestAnimationFrame(() => {
+    scrollRafId = 0;
+    updateScrollAnimations();
+  });
+}
+
+window.addEventListener('scroll', onScrollTick, { passive: true });
 window.addEventListener('resize', updateScrollAnimations);
 window.addEventListener('load', updateScrollAnimations);
 
