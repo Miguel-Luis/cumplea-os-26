@@ -711,11 +711,12 @@ h1 {
     touch-action: pan-y;
   }
 
-  /* Scroll táctil: el blur y las transiciones largas en .scene suelen causar tirones y parpadeos */
+  /* Scroll táctil: sin blur ni transiciones CSS en el contenedor (el fundido lo hace JS por frame) */
   .scene,
   .scene.active {
     filter: none !important;
     transition: none;
+    will-change: opacity;
   }
 
   .scroll-hint {
