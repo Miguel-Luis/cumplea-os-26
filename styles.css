@@ -602,8 +602,16 @@ h1 {
 }
 
 @media (max-width: 900px) {
+  :root {
+    /* Textos secundarios más legibles en pantallas pequeñas */
+    --muted: rgba(236, 246, 255, 0.92);
+  }
+
   body {
     min-height: 760vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   .progress-wrap,
@@ -611,9 +619,140 @@ h1 {
     display: none;
   }
 
+  /* Badge centrado y legible (no pegado al borde derecho) */
   .date-badge {
-    top: max(10px, env(safe-area-inset-top, 0px));
-    right: max(8px, env(safe-area-inset-right, 0px));
+    top: max(8px, env(safe-area-inset-top, 0px));
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    justify-content: center;
+    text-align: center;
+    max-width: min(calc(100vw - 20px), 360px);
+    font-size: clamp(10px, 2.4vw + 6px, 14px);
+    font-weight: 600;
+    padding: 9px 16px;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.96);
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(5, 12, 24, 0.88);
+    backdrop-filter: blur(16px);
+  }
+
+  .date-badge span:last-child {
+    font-weight: 800;
+  }
+
+  /* Tarjetas: más contraste y tipografía clara */
+  .copy-card,
+  .message-panel,
+  .count-card,
+  .final-card {
+    background: rgba(5, 14, 28, 0.86);
+    border-color: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(20px);
+  }
+
+  .tag {
+    font-size: clamp(11px, 1vw + 9px, 13px);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #c5f3ff;
+    margin-bottom: 12px;
+  }
+
+  .copy-card h2,
+  .message-panel h2,
+  .final-card h2 {
+    font-size: clamp(1.38rem, 5.2vw + 0.55rem, 2.45rem);
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
+  }
+
+  .copy-card p,
+  .message-panel p,
+  .final-card p {
+    font-size: clamp(0.96rem, 3.5vw + 0.42rem, 1.14rem);
+    line-height: 1.62;
+    color: rgba(244, 250, 255, 0.94);
+    font-weight: 400;
+  }
+
+  .message-panel li {
+    font-size: clamp(0.92rem, 3.1vw + 0.38rem, 1.06rem);
+    line-height: 1.52;
+    font-weight: 500;
+    color: rgba(250, 252, 255, 0.96);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+
+  .count-card .tiny {
+    font-size: clamp(10px, 1.8vw + 7px, 12px);
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .count-card .sub {
+    font-size: clamp(0.9rem, 3vw + 0.35rem, 1.02rem);
+    line-height: 1.55;
+    color: rgba(238, 246, 255, 0.92);
+  }
+
+  .final-card .sign {
+    font-size: clamp(11px, 2.5vw + 6px, 14px);
+    font-weight: 600;
+  }
+
+  .final-card .sign-follow {
+    font-size: clamp(12px, 2.8vw + 6px, 15px);
+    font-weight: 600;
+  }
+
+  .footer-note {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: clamp(9px, 2vw + 6px, 12px);
+    letter-spacing: 0.12em;
+    line-height: 1.45;
+  }
+
+  /* Etiquetas bajo fotos: más grandes y con halo para leer sobre cualquier imagen */
+  .frame::after {
+    font-size: clamp(10px, 2.2vw + 6px, 13px);
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    color: #ffffff;
+    text-shadow:
+      0 0 12px rgba(0, 0, 0, 0.95),
+      0 2px 8px rgba(0, 0, 0, 0.85),
+      0 1px 0 rgba(0, 0, 0, 0.5);
+    left: 12px;
+    bottom: 11px;
+  }
+
+  /* Fotos: menos zoom para llenar el marco y menos “bandas” visibles */
+  .frame img {
+    transform: scale(1);
+    object-fit: cover;
+    object-position: center 28%;
+    filter: saturate(1.06) contrast(1.05) brightness(1.02);
+  }
+
+  .eyebrow {
+    font-size: clamp(10px, 2.2vw + 6px, 14px);
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.94);
+  }
+
+  h1 {
+    font-size: clamp(1.22rem, 7.2vw + 0.55rem, 2.85rem);
+    text-shadow: 0 4px 28px rgba(0, 0, 0, 0.5);
+  }
+
+  .hero-copy {
+    font-size: clamp(0.94rem, 3.4vw + 0.45rem, 1.2rem);
+    color: rgba(238, 248, 255, 0.93);
+    line-height: 1.58;
   }
 
   /* Tarjetas centradas + parallax de scroll (no pisar transform del escritorio) */
@@ -621,7 +760,7 @@ h1 {
   .message-panel,
   .count-card,
   .final-card {
-    width: min(92vw, calc(100vw - 2 * var(--pad-inline)));
+    width: min(calc(100vw - 18px), 540px);
     left: 50%;
     right: auto;
   }
@@ -699,10 +838,10 @@ h1 {
     align-items: center;
     justify-content: flex-start;
     gap: 6px;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 42px);
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
-    padding-left: var(--pad-inline);
-    padding-right: var(--pad-inline);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 32px);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+    padding-left: max(var(--pad-inline), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--pad-inline), env(safe-area-inset-right, 0px));
     box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -728,11 +867,11 @@ h1 {
     position: relative;
     inset: auto;
     width: 100%;
-    max-width: 420px;
+    max-width: min(440px, calc(100vw - 12px));
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: clamp(8px, 2.5vw, 14px);
-    padding: 4px 0 8px;
+    padding: 2px 0 6px;
     z-index: 1;
     flex: 0 0 auto;
   }
@@ -745,9 +884,10 @@ h1 {
     bottom: auto !important;
     transform: none !important;
     width: 100% !important;
-    max-width: 200px;
+    max-width: min(210px, 46vw);
     margin-inline: auto;
     opacity: 1;
+    aspect-ratio: 4 / 5;
   }
 
   .scene-1 .spark {
@@ -774,10 +914,11 @@ h1 {
     position: relative;
     left: 50%;
     top: auto;
-    width: min(calc(100vw - 2 * var(--pad-inline)), 280px);
+    width: min(calc(100vw - 18px), 300px);
     max-width: 100%;
-    max-height: min(46vh, 300px);
-    max-height: min(46dvh, 300px);
+    aspect-ratio: 4 / 5;
+    max-height: min(52vh, 340px);
+    max-height: min(52dvh, 340px);
     margin-bottom: 14px;
     flex-shrink: 1;
     transform: translateX(-50%) scale(calc(0.9 + var(--scene2) * 0.1));
@@ -817,11 +958,11 @@ h1 {
     position: relative;
     inset: auto;
     width: 100%;
-    max-width: 320px;
+    max-width: min(340px, calc(100vw - 14px));
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     z-index: 1;
     flex: 0 0 auto;
   }
@@ -834,9 +975,10 @@ h1 {
     top: auto !important;
     bottom: auto !important;
     transform: none !important;
-    width: min(calc(100vw - 2 * var(--pad-inline)), 260px) !important;
+    width: min(calc(100vw - 18px), 300px) !important;
     max-width: 100%;
     margin-inline: auto;
+    aspect-ratio: 4 / 5;
   }
 
   /* Escena 4: tarjeta, galería 2×2, pie */
@@ -854,11 +996,11 @@ h1 {
     position: relative;
     inset: auto;
     width: 100%;
-    max-width: 400px;
+    max-width: min(420px, calc(100vw - 14px));
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    padding: 8px 0 0;
+    padding: 6px 0 0;
     z-index: 1;
   }
 
@@ -870,9 +1012,10 @@ h1 {
     bottom: auto !important;
     transform: none !important;
     width: 100% !important;
-    max-width: 190px;
+    max-width: min(200px, 48vw);
     margin-inline: auto;
     opacity: 1;
+    aspect-ratio: 4 / 5;
   }
 
   .scene-4 .footer-note {
@@ -906,6 +1049,16 @@ h1 {
 
   h1 {
     letter-spacing: -0.06em;
+    font-size: clamp(1.18rem, 8vw + 0.45rem, 2.65rem);
+  }
+
+  .message-panel h2,
+  .copy-card h2 {
+    font-size: clamp(1.28rem, 6vw + 0.5rem, 2.15rem);
+  }
+
+  .frame::after {
+    font-size: clamp(11px, 2.8vw + 6px, 13px);
   }
 }
 
