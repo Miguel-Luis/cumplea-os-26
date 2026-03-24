@@ -720,6 +720,8 @@ h1 {
 
   .scroll-hint {
     mix-blend-mode: normal;
+    bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 12px));
+    z-index: 70;
   }
 
   .stage {
@@ -736,7 +738,7 @@ h1 {
     display: none;
   }
 
-  /* Tarjetas: más contraste y tipografía clara */
+  /* Tarjetas: más contraste; sin recortar párrafos */
   .copy-card,
   .message-panel,
   .count-card,
@@ -744,6 +746,7 @@ h1 {
     background: rgba(5, 14, 28, 0.86);
     border-color: rgba(255, 255, 255, 0.18);
     backdrop-filter: blur(20px);
+    overflow: visible;
   }
 
   .tag {
@@ -757,10 +760,11 @@ h1 {
   .copy-card h2,
   .message-panel h2,
   .final-card h2 {
-    font-size: clamp(1.38rem, 5.2vw + 0.55rem, 2.45rem);
+    font-size: clamp(1.22rem, 4.6vw + 0.5rem, 2.05rem);
     font-weight: 800;
     color: #ffffff;
     text-shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
+    line-height: 1.08;
   }
 
   .copy-card p,
@@ -849,8 +853,13 @@ h1 {
     line-height: 1.58;
   }
 
+  /* Sin margen negativo: la cita no debe pegarse al borde superior */
   .scene-1 .hero-title {
-    margin-top: clamp(-32px, -5vh, -10px);
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(10px, 2.2vmin, 18px);
   }
 
   .hero-quote {
@@ -858,7 +867,7 @@ h1 {
     padding: clamp(6px, 1.5vw + 2px, 10px) clamp(8px, 2vw + 3px, 12px);
     background: rgba(5, 14, 28, 0.82);
     border-color: rgba(255, 255, 255, 0.18);
-    margin-bottom: clamp(4px, 1.5vmin, 10px);
+    margin: clamp(6px, 2.2vmin, 16px) auto clamp(4px, 1.5vmin, 10px);
   }
 
   .hero-quote::before {
@@ -893,39 +902,6 @@ h1 {
     width: min(calc(100vw - 18px), 540px);
     left: 50%;
     right: auto;
-  }
-
-  .scene-2 .copy-card {
-    transform: translate3d(
-      calc(-50% + (1 - var(--scene2)) * -100px),
-      calc((1 - var(--scene2)) * 40px),
-      0
-    );
-  }
-
-  .scene-2 .count-card {
-    transform: translate3d(
-      calc(-50% + (1 - var(--scene2)) * 90px),
-      calc((1 - var(--scene2)) * -40px),
-      0
-    );
-  }
-
-  .scene-3 .message-panel {
-    transform: translate3d(
-      calc(-50% + (1 - var(--scene3)) * 120px),
-      calc((1 - var(--scene3)) * 30px),
-      0
-    );
-  }
-
-  .scene-4 .final-card {
-    transform: translate3d(
-      -50%,
-      calc((1 - var(--scene4)) * 80px),
-      0
-    )
-      scale(calc(0.85 + var(--scene4) * 0.18));
   }
 
   .copy-card {
@@ -967,7 +943,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    gap: 6px;
+    gap: clamp(12px, 3vmin, 20px);
     padding-top: calc(env(safe-area-inset-top, 0px) + 32px);
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
     padding-left: max(var(--pad-inline), env(safe-area-inset-left, 0px));
@@ -976,11 +952,16 @@ h1 {
     overflow-x: hidden;
     overflow-y: hidden;
     min-height: 0;
+    z-index: 1;
   }
 
-  /* Primera escena: menos aire arriba para subir cita y título */
+  .scene.active {
+    z-index: 10;
+  }
+
+  /* Primera escena: aire superior cómodo para la cita (notch + borde) */
   .scene.scene-1 {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 18px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + clamp(22px, 5.5vmin, 34px));
   }
 
   .scene-1 .center-wrap {
@@ -998,15 +979,16 @@ h1 {
     opacity: calc(0.12 + var(--progress) * 0.12);
   }
 
+  /* Una columna: fotos más grandes y claras; hueco inferior para no tapar leyendas con “Desliza…” */
   .scene-1 .photo-stage {
     position: relative;
     inset: auto;
     width: 100%;
-    max-width: min(440px, calc(100vw - 12px));
+    max-width: min(300px, calc(100vw - 28px));
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(8px, 2.5vw, 14px);
-    padding: 2px 0 6px;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 4px 0 clamp(52px, 16vmin, 76px);
     z-index: 1;
     flex: 0 0 auto;
   }
@@ -1019,10 +1001,10 @@ h1 {
     bottom: auto !important;
     transform: none !important;
     width: 100% !important;
-    max-width: min(210px, 46vw);
+    max-width: min(288px, calc(100vw - 32px));
     margin-inline: auto;
     opacity: 1;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
   }
 
   .scene-1 .spark {
@@ -1035,13 +1017,10 @@ h1 {
     position: relative;
     top: auto;
     margin-top: 0;
-    margin-bottom: 14px;
-    transform: translate3d(
-      calc(-50% + (1 - var(--scene2)) * -36px),
-      calc((1 - var(--scene2)) * 14px),
-      0
-    );
+    margin-bottom: 16px;
+    transform: translateX(-50%);
     z-index: 2;
+    padding-bottom: clamp(18px, 4vw, 26px);
   }
 
   .scene-2 .frame.big {
@@ -1049,14 +1028,14 @@ h1 {
     position: relative;
     left: 50%;
     top: auto;
-    width: min(calc(100vw - 18px), 300px);
+    width: min(calc(100vw - 24px), 288px);
     max-width: 100%;
-    aspect-ratio: 4 / 5;
-    max-height: min(52vh, 340px);
-    max-height: min(52dvh, 340px);
-    margin-bottom: 14px;
+    aspect-ratio: 3 / 4;
+    max-height: min(50vh, 320px);
+    max-height: min(50dvh, 320px);
+    margin-bottom: 16px;
     flex-shrink: 1;
-    transform: translateX(-50%) scale(calc(0.9 + var(--scene2) * 0.1));
+    transform: translateX(-50%);
     z-index: 1;
   }
 
@@ -1065,13 +1044,10 @@ h1 {
     position: relative;
     top: auto;
     bottom: auto;
-    margin-bottom: 8px;
-    transform: translate3d(
-      calc(-50% + (1 - var(--scene2)) * 36px),
-      calc((1 - var(--scene2)) * -12px),
-      0
-    );
+    margin-bottom: 12px;
+    transform: translateX(-50%);
     z-index: 2;
+    padding-bottom: clamp(16px, 3.5vw, 24px);
   }
 
   /* Escena 3: mensaje arriba, fotos debajo en columna */
@@ -1079,13 +1055,10 @@ h1 {
     order: 1;
     position: relative;
     top: auto;
-    margin-bottom: 16px;
-    transform: translate3d(
-      calc(-50% + (1 - var(--scene3)) * 48px),
-      calc((1 - var(--scene3)) * 12px),
-      0
-    );
+    margin-bottom: 18px;
+    transform: translateX(-50%);
     z-index: 2;
+    padding-bottom: clamp(14px, 3vw, 22px);
   }
 
   .scene-3 .photo-stage {
@@ -1093,11 +1066,11 @@ h1 {
     position: relative;
     inset: auto;
     width: 100%;
-    max-width: min(340px, calc(100vw - 14px));
+    max-width: min(300px, calc(100vw - 24px));
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
     z-index: 1;
     flex: 0 0 auto;
   }
@@ -1110,10 +1083,10 @@ h1 {
     top: auto !important;
     bottom: auto !important;
     transform: none !important;
-    width: min(calc(100vw - 18px), 300px) !important;
+    width: min(calc(100vw - 24px), 288px) !important;
     max-width: 100%;
     margin-inline: auto;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
   }
 
   /* Escena 4: tarjeta, galería 2×2, pie */
@@ -1126,16 +1099,17 @@ h1 {
     padding: 0 var(--pad-inline) 8px;
   }
 
+  /* Una columna: sin hueco vacío al lado de la última foto */
   .scene-4 .photo-stage {
     order: 2;
     position: relative;
     inset: auto;
     width: 100%;
-    max-width: min(420px, calc(100vw - 14px));
+    max-width: min(300px, calc(100vw - 24px));
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    padding: 6px 0 0;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 8px 0 0;
     z-index: 1;
   }
 
@@ -1147,10 +1121,10 @@ h1 {
     bottom: auto !important;
     transform: none !important;
     width: 100% !important;
-    max-width: min(200px, 48vw);
+    max-width: min(288px, calc(100vw - 28px));
     margin-inline: auto;
     opacity: 1;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
   }
 
   .scene-4 .footer-note {
@@ -1201,30 +1175,6 @@ h1 {
 @media (max-width: 380px) {
   body {
     min-height: 840vh;
-  }
-
-  .scene-2 .copy-card {
-    transform: translate3d(
-      calc(-50% + (1 - var(--scene2)) * -48px),
-      calc((1 - var(--scene2)) * 20px),
-      0
-    );
-  }
-
-  .scene-2 .count-card {
-    transform: translate3d(
-      calc(-50% + (1 - var(--scene2)) * 44px),
-      calc((1 - var(--scene2)) * -22px),
-      0
-    );
-  }
-
-  .scene-3 .message-panel {
-    transform: translate3d(
-      calc(-50% + (1 - var(--scene3)) * 56px),
-      calc((1 - var(--scene3)) * 16px),
-      0
-    );
   }
 
   .scene-4 .final-card {
