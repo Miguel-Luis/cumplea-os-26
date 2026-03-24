@@ -214,6 +214,15 @@ body {
   padding: var(--pad-block) var(--pad-inline);
 }
 
+/* Escena 1 en escritorio: bloque del hero más arriba en el viewport */
+.scene-1 .center-wrap {
+  padding-top: clamp(10px, 2.2vh, 36px);
+  padding-bottom: clamp(48px, 14vh, 160px);
+  padding-left: var(--pad-inline);
+  padding-right: var(--pad-inline);
+  align-content: center;
+}
+
 .hero-title {
   text-align: center;
   max-width: min(1000px, var(--content-max));
@@ -222,6 +231,84 @@ body {
   z-index: 2;
   transform: translateY(calc(var(--hero-shift, 0px)));
   padding-inline: clamp(0px, 1vw, 8px);
+}
+
+/* Sube todo el bloque del hero en escena 1 (cita + título) */
+.scene-1 .hero-title {
+  margin-top: clamp(-52px, -7vh, -16px);
+}
+
+/* Cita de apertura: muy compacta; comillas decorativas */
+.hero-quote {
+  margin: 0 auto clamp(4px, 1vmin, 10px);
+  max-width: min(400px, calc(var(--content-max) - 8px));
+  padding: clamp(6px, 1vw + 2px, 11px) clamp(9px, 1.5vw + 4px, 14px);
+  text-align: center;
+  border-radius: clamp(11px, 2vmin, 18px);
+  background: rgba(6, 16, 32, 0.52);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(12px);
+  position: relative;
+}
+
+.hero-quote::before {
+  content: "“";
+  position: absolute;
+  top: 0;
+  left: clamp(5px, 1.2vw, 10px);
+  font-size: clamp(1.05rem, 3.2vw, 1.85rem);
+  line-height: 1;
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  color: rgba(139, 233, 255, 0.34);
+  pointer-events: none;
+}
+
+.hero-quote__text {
+  margin: 0;
+  position: relative;
+  padding: 0 clamp(0.85rem, 2.4vw, 1.25rem) 0.08em;
+  font-size: clamp(0.65rem, 0.75vw + 0.38rem, 0.82rem);
+  line-height: 1.38;
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(240, 248, 255, 0.92);
+  text-wrap: balance;
+}
+
+/* Comilla de cierre */
+.hero-quote__text::after {
+  content: "”";
+  position: absolute;
+  right: clamp(1px, 0.8vw, 8px);
+  bottom: -0.04em;
+  font-size: clamp(0.95rem, 3vw, 1.7rem);
+  line-height: 1;
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  color: rgba(139, 233, 255, 0.34);
+  pointer-events: none;
+}
+
+.hero-quote__footer {
+  margin-top: clamp(3px, 1vmin, 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.3em;
+  font-size: clamp(7px, 0.5vw + 5px, 9px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-3);
+}
+
+.hero-quote__dash {
+  opacity: 0.9;
+}
+
+.hero-quote cite {
+  font-style: normal;
+  font-weight: 600;
 }
 
 .eyebrow {
@@ -755,6 +842,42 @@ h1 {
     line-height: 1.58;
   }
 
+  .scene-1 .hero-title {
+    margin-top: clamp(-32px, -5vh, -10px);
+  }
+
+  .hero-quote {
+    max-width: min(calc(100vw - 16px), 400px);
+    padding: clamp(6px, 1.5vw + 2px, 10px) clamp(8px, 2vw + 3px, 12px);
+    background: rgba(5, 14, 28, 0.82);
+    border-color: rgba(255, 255, 255, 0.18);
+    margin-bottom: clamp(4px, 1.5vmin, 10px);
+  }
+
+  .hero-quote::before {
+    font-size: clamp(1rem, 4.2vw, 1.65rem);
+    top: 0;
+    left: 6px;
+  }
+
+  .hero-quote__text {
+    font-size: clamp(0.74rem, 2.5vw + 0.32rem, 0.86rem);
+    line-height: 1.4;
+    padding-inline: clamp(0.65rem, 3vw, 1.05rem);
+    color: rgba(244, 250, 255, 0.96);
+  }
+
+  .hero-quote__text::after {
+    font-size: clamp(0.9rem, 4vw, 1.45rem);
+    right: 2px;
+  }
+
+  .hero-quote__footer {
+    font-size: clamp(7px, 1.5vw + 5px, 9px);
+    margin-top: 4px;
+    letter-spacing: 0.12em;
+  }
+
   /* Tarjetas centradas + parallax de scroll (no pisar transform del escritorio) */
   .copy-card,
   .message-panel,
@@ -848,13 +971,18 @@ h1 {
     min-height: 0;
   }
 
+  /* Primera escena: menos aire arriba para subir cita y título */
+  .scene.scene-1 {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 18px);
+  }
+
   .scene-1 .center-wrap {
     position: relative;
     inset: auto;
     width: 100%;
     flex: 0 0 auto;
     min-height: 0;
-    padding: 4px var(--pad-inline) 12px;
+    padding: 0 var(--pad-inline) 10px;
     z-index: 3;
   }
 
