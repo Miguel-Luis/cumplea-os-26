@@ -690,6 +690,209 @@ h1 {
     width: min(100%, calc(100vw - 2 * var(--pad-inline)));
     bottom: max(4vh, env(safe-area-inset-bottom, 0px));
   }
+
+  /* --- Celular: columna fluida, sin capas absolutas que tapen el texto --- */
+  /* overflow-y: hidden para no robar el scroll del body (la historia va con el scroll de página) */
+  .scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 42px);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
+    padding-left: var(--pad-inline);
+    padding-right: var(--pad-inline);
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    min-height: 0;
+  }
+
+  .scene-1 .center-wrap {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    flex: 0 0 auto;
+    min-height: 0;
+    padding: 4px var(--pad-inline) 12px;
+    z-index: 3;
+  }
+
+  .scene-1 .hero-orbit {
+    width: min(88vw, 320px);
+    opacity: calc(0.12 + var(--progress) * 0.12);
+  }
+
+  .scene-1 .photo-stage {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    max-width: 420px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(8px, 2.5vw, 14px);
+    padding: 4px 0 8px;
+    z-index: 1;
+    flex: 0 0 auto;
+  }
+
+  .scene-1 .frame {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 200px;
+    margin-inline: auto;
+    opacity: 1;
+  }
+
+  .scene-1 .spark {
+    display: none;
+  }
+
+  /* Escena 2: texto → foto → fecha (orden legible) */
+  .scene-2 .copy-card {
+    order: 1;
+    position: relative;
+    top: auto;
+    margin-top: 0;
+    margin-bottom: 14px;
+    transform: translate3d(
+      calc(-50% + (1 - var(--scene2)) * -36px),
+      calc((1 - var(--scene2)) * 14px),
+      0
+    );
+    z-index: 2;
+  }
+
+  .scene-2 .frame.big {
+    order: 2;
+    position: relative;
+    left: 50%;
+    top: auto;
+    width: min(calc(100vw - 2 * var(--pad-inline)), 280px);
+    max-width: 100%;
+    max-height: min(46vh, 300px);
+    max-height: min(46dvh, 300px);
+    margin-bottom: 14px;
+    flex-shrink: 1;
+    transform: translateX(-50%) scale(calc(0.9 + var(--scene2) * 0.1));
+    z-index: 1;
+  }
+
+  .scene-2 .count-card {
+    order: 3;
+    position: relative;
+    top: auto;
+    bottom: auto;
+    margin-bottom: 8px;
+    transform: translate3d(
+      calc(-50% + (1 - var(--scene2)) * 36px),
+      calc((1 - var(--scene2)) * -12px),
+      0
+    );
+    z-index: 2;
+  }
+
+  /* Escena 3: mensaje arriba, fotos debajo en columna */
+  .scene-3 .message-panel {
+    order: 1;
+    position: relative;
+    top: auto;
+    margin-bottom: 16px;
+    transform: translate3d(
+      calc(-50% + (1 - var(--scene3)) * 48px),
+      calc((1 - var(--scene3)) * 12px),
+      0
+    );
+    z-index: 2;
+  }
+
+  .scene-3 .photo-stage {
+    order: 2;
+    position: relative;
+    inset: auto;
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    z-index: 1;
+    flex: 0 0 auto;
+  }
+
+  .scene-3 .frame,
+  .scene-3 .frame.big {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: min(calc(100vw - 2 * var(--pad-inline)), 260px) !important;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  /* Escena 4: tarjeta, galería 2×2, pie */
+  .scene-4 .center-wrap {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    order: 1;
+    flex: 0 0 auto;
+    padding: 0 var(--pad-inline) 8px;
+  }
+
+  .scene-4 .photo-stage {
+    order: 2;
+    position: relative;
+    inset: auto;
+    width: 100%;
+    max-width: 400px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 8px 0 0;
+    z-index: 1;
+  }
+
+  .scene-4 .frame {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 190px;
+    margin-inline: auto;
+    opacity: 1;
+  }
+
+  .scene-4 .footer-note {
+    order: 3;
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    margin-top: 18px;
+    padding-bottom: 8px;
+  }
+
+  /* Final en flujo normal: evita colapso con left:50% y position absolute */
+  .scene-4 .final-card {
+    position: relative;
+    left: auto !important;
+    margin-inline: auto;
+    transform: translateY(calc((1 - var(--scene4)) * 28px))
+      scale(calc(0.88 + var(--scene4) * 0.14));
+  }
 }
 
 @media (max-width: 640px) {
@@ -698,26 +901,7 @@ h1 {
   }
 
   .frame.f1, .frame.f2, .frame.f3, .frame.f4, .frame.f5, .frame.f6, .frame.f7, .frame.f8, .frame.f9 {
-    opacity: 0.72;
-  }
-
-  .scene-1 .frame.f1 { left: -4vw; top: 16vh; }
-  .scene-1 .frame.f2 { right: -6vw; top: 14vh; }
-  .scene-1 .frame.f3 { left: 8vw; bottom: 12vh; }
-  .scene-1 .frame.f4 { right: 4vw; bottom: 14vh; }
-
-  .scene-3 .frame.big {
-    left: 50%;
-    bottom: 10vh;
-    transform: translateX(-50%) scale(calc(0.92 + var(--scene3) * 0.15));
-  }
-
-  .scene-3 .frame.f5,
-  .scene-3 .frame.f6,
-  .scene-4 .frame.f7,
-  .scene-4 .frame.f8,
-  .scene-4 .frame.f9 {
-    display: none;
+    opacity: 0.95;
   }
 
   h1 {
@@ -761,8 +945,8 @@ h1 {
   }
 
   .scene-4 .final-card {
-    transform: translate3d(-50%, calc((1 - var(--scene4)) * 48px), 0)
-      scale(calc(0.88 + var(--scene4) * 0.16));
+    transform: translateY(calc((1 - var(--scene4)) * 18px))
+      scale(calc(0.88 + var(--scene4) * 0.14));
   }
 }
 
