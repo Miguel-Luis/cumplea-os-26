@@ -21,6 +21,12 @@
 
   <div class="scroll-hint" id="scrollHint">Desliza para comenzar</div>
 
+  <audio id="bgMusic" src="./sounds/nzele.mp3" loop preload="auto" playsinline></audio>
+  <button type="button" class="music-toggle" id="musicToggle" aria-label="Música de fondo" aria-pressed="false">
+    <span class="music-toggle__icon" aria-hidden="true">♪</span>
+    <span class="music-toggle__text">Música</span>
+  </button>
+
   <main class="stage">
     <div class="noise"></div>
     <div class="grid"></div>
@@ -39,7 +45,6 @@
               <cite>Carl Sagan</cite>
             </footer>
           </blockquote>
-          <div class="eyebrow">Edición especial de cumpleaños</div>
           <h1>
             Feliz cumpleaños,
             <span class="name-gradient">mi cerecita 🍒 hermosa</span>

@@ -204,3 +204,61 @@ if (typeof narrowMq.addEventListener === 'function') {
 
 syncMobileScrollLoop();
 updateScrollAnimations();
+
+// --- Música de fondo (el autoplay con sonido requiere un gesto del usuario) ---
+const bgMusic = document.getElementById('bgMusic');
+const musicToggle = document.getElementById('musicToggle');
+
+function syncMusicToggleUi() {
+  if (!musicToggle || !bgMusic) return;
+  const playing = !bgMusic.paused;
+  musicToggle.setAttribute('aria-pressed', playing ? 'true' : 'false');
+  musicToggle.classList.toggle('is-playing', playing);
+  musicToggle.setAttribute('aria-label', playing ? 'Silenciar música de fondo' : 'Activar música de fondo');
+}
+
+function tryPlayBgMusic() {
+  if (!bgMusic) return;
+  bgMusic.volume = 0.4;
+  const p = bgMusic.play();
+  if (p !== undefined) {
+    p.then(() => {
+      syncMusicToggleUi();
+      document.body.removeEventListener('pointerdown', onFirstUserGestureForMusic, true);
+    }).catch(() => {});
+  } else {
+    syncMusicToggleUi();
+  }
+}
+
+if (musicToggle && bgMusic) {
+  musicToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (bgMusic.paused) {
+      tryPlayBgMusic();
+    } else {
+      bgMusic.pause();
+      syncMusicToggleUi();
+    }
+  });
+}
+
+function onFirstUserGestureForMusic(e) {
+  if (e.target instanceof Element && e.target.closest('#musicToggle')) return;
+  if (!bgMusic || !bgMusic.paused) return;
+  tryPlayBgMusic();
+}
+
+document.body.addEventListener('pointerdown', onFirstUserGestureForMusic, { passive: true, capture: true });
+
+let resumeMusicAfterVisible = false;
+document.addEventListener('visibilitychange', () => {
+  if (!bgMusic) return;
+  if (document.visibilityState === 'hidden') {
+    resumeMusicAfterVisible = !bgMusic.paused;
+    if (resumeMusicAfterVisible) bgMusic.pause();
+  } else if (resumeMusicAfterVisible) {
+    tryPlayBgMusic();
+  }
+  syncMusicToggleUi();
+});

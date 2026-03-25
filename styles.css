@@ -127,6 +127,47 @@ body {
   font-weight: 800;
 }
 
+/* Control de música de fondo (esquina opuesta al badge de fecha) */
+.music-toggle {
+  position: fixed;
+  top: max(10px, env(safe-area-inset-top, 0px));
+  left: max(8px, env(safe-area-inset-left, 0px));
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: clamp(6px, 1.2vw + 4px, 12px) clamp(10px, 2vw + 6px, 16px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(7, 16, 28, 0.62);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
+  font: inherit;
+  font-size: clamp(9px, 1.8vw + 4px, 12px);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.music-toggle__icon {
+  font-size: 1.15em;
+  line-height: 1;
+  opacity: 0.65;
+}
+
+.music-toggle.is-playing .music-toggle__icon {
+  opacity: 1;
+  color: var(--accent-3);
+}
+
+.music-toggle:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
 .stage {
   position: fixed;
   inset: 0;
